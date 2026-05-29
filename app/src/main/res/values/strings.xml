@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Coffee App</string>
+    <string name="title_coffee_shop">COFFEE SHOP</string>
+    <string name="hint_enter_name">Enter Name</string>
+    <string name="label_number_of_coffee">Number of Coffee</string>
+    <string name="label_toppings">TOPPINGS</string>
+    <string name="topping_chapati">Chapati</string>
+    <string name="topping_mandazi">Mandazi</string>
+    <string name="topping_githeri">Githeri</string>
+    <string name="topping_bread">Bread</string>
+    <string name="btn_place_order">Place Order</string>
+    <string name="minus_sign">-</string>
+    <string name="plus_sign">+</string>
+    <string name="content_desc_coffee_logo">Coffee Shop Logo</string>
+</resources>
