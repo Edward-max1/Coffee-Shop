@@ -1,15 +1,27 @@
 <resources>
-    <string name="app_name">Coffee App</string>
+    <string name="app_name">Coffee Shop App</string>
     <string name="title_coffee_shop">COFFEE SHOP</string>
     <string name="hint_enter_name">Enter Name</string>
     <string name="label_number_of_coffee">Number of Coffee</string>
     <string name="label_toppings">TOPPINGS</string>
-    <string name="topping_chapati">Chapati</string>
-    <string name="topping_mandazi">Mandazi</string>
-    <string name="topping_githeri">Githeri</string>
-    <string name="topping_bread">Bread</string>
+    <string name="topping_chapati">Chapati (20/-)</string>
+    <string name="topping_mandazi">Mandazi (15/-)</string>
+    <string name="topping_githeri">Githeri (50/-)</string>
+    <string name="topping_bread">Bread (30/-)</string>
     <string name="btn_place_order">Place Order</string>
     <string name="minus_sign">-</string>
     <string name="plus_sign">+</string>
+    <string name="order_subject">Coffee Shop Order</string>
+    <string name="err_empty_name">Please enter your name</string>
+    <string name="msg_order_placed">Order Placed Successfully!</string>
+    <string name="msg_min_order">Minimum order is 1 coffee</string>
+    <string name="msg_no_email">No email app found to send order summary</string>
+    <string name="title_order_summary">Order Summary</string>
+    <string name="label_payment_method">Select Payment Method</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="payment_mpesa">M-Pesa</string>
+    <string name="payment_card">Credit/Debit Card</string>
+    <string name="payment_cash">Cash on Delivery</string>
+    <string name="msg_payment_success">Payment initiated successfully!</string>
     <string name="content_desc_coffee_logo">Coffee Shop Logo</string>
 </resources>

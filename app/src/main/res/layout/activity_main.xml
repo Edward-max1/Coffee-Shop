@@ -6,6 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cream"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -17,189 +18,240 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_marginBottom="24dp">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/logo"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/coffee1"
-                    android:contentDescription="Coffee Shop Logo" />
+                    app:shapeAppearanceOverlay="@style/CircleImageView" />
 
                 <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="COFFEE SHOP"
-                    android:textSize="30sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/title_coffee_shop"
+                    android:textColor="@color/coffee_brown"
+                    android:textSize="32sp"
                     android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/logoutBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@android:drawable/ic_lock_power_off"
+                    android:contentDescription="Logout"
+                    android:visibility="gone"/>
             </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
+            <!-- Customer Info Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:contentPadding="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/nameInput"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Name"
-                    android:inputType="textPersonName"
-                    android:textSize="20sp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/greetingText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Good Morning"
+                        android:textSize="18sp"
+                        android:textColor="@color/coffee_brown"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:layout_marginBottom="8dp"/>
 
-            <TextView
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/nameInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:hint="@string/hint_enter_name"
+                        app:startIconDrawable="@android:drawable/ic_menu_edit"
+                        app:boxStrokeColor="@color/coffee_brown"
+                        app:hintTextColor="@color/coffee_brown">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nameInput"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textColor="@color/black" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quantity Section Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="20dp"
-                android:text="Number of Coffee"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="20dp">
-
-                <Button
-                    android:id="@+id/minusBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="-"
-                    android:textSize="28sp" />
-
-                <EditText
-                    android:id="@+id/coffeeNum"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:text="1"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/plusBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="+"
-                    android:textSize="28sp" />
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginRight="20dp"
-                android:text="TOPPINGS"
-                android:textAlignment="center"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="12dp"
-                android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="20dp">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:contentPadding="16dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/chapati"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="Chapati"
-                        android:textSize="25sp" />
+                        android:text="@string/label_number_of_coffee"
+                        android:textAlignment="center"
+                        android:textColor="@color/coffee_brown"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
-                    <CheckBox
-                        android:id="@+id/mandazi"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mandazi"
-                        android:textSize="25sp" />
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/minusBtn"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:text="@string/minus_sign"
+                            android:textSize="24sp"
+                            app:cornerRadius="30dp"
+                            app:strokeColor="@color/coffee_brown" />
+
+                        <EditText
+                            android:id="@+id/coffeeNum"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:text="1"
+                            android:textSize="24sp"
+                            android:textColor="@color/coffee_brown"
+                            android:background="@null" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/plusBtn"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:text="@string/plus_sign"
+                            android:textSize="24sp"
+                            app:cornerRadius="30dp"
+                            app:strokeColor="@color/coffee_brown" />
+                    </LinearLayout>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Toppings Section Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:contentPadding="16dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/githeri"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:text="Githeri"
-                        android:textSize="25sp" />
+                        android:text="@string/label_toppings"
+                        android:textAlignment="center"
+                        android:textColor="@color/coffee_brown"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
 
-                    <CheckBox
-                        android:id="@+id/bread"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Bread"
-                        android:textSize="25sp" />
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/chapati"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/topping_chapati"
+                                android:textColor="@color/coffee_brown" />
+
+                            <CheckBox
+                                android:id="@+id/mandazi"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/topping_mandazi"
+                                android:textColor="@color/coffee_brown" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/githeri"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/topping_githeri"
+                                android:textColor="@color/coffee_brown" />
+
+                            <CheckBox
+                                android:id="@+id/bread"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/topping_bread"
+                                android:textColor="@color/coffee_brown" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/order"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginRight="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="Place Order"
-                android:textSize="24sp" />
+                android:layout_height="64dp"
+                android:text="@string/btn_place_order"
+                android:textSize="20sp"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/coffee_brown"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </ScrollView>
 
