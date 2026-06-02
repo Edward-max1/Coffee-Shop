@@ -20,7 +20,7 @@ import java.util.Objects;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText fullNameInput, usernameInput, passwordInput;
+    private TextInputEditText fullNameInput, emailInput, usernameInput, passwordInput, confirmPasswordInput;
     private DatabaseReference mDatabase;
 
     @Override
@@ -31,8 +31,10 @@ public class RegisterActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         fullNameInput = findViewById(R.id.fullNameInput);
+        emailInput = findViewById(R.id.emailInput);
         usernameInput = findViewById(R.id.usernameInput);
         passwordInput = findViewById(R.id.passwordInput);
+        confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         MaterialButton registerBtn = findViewById(R.id.registerBtn);
 
         findViewById(R.id.loginLink).setOnClickListener(v -> finish());
@@ -42,11 +44,23 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registerUser() {
         String fullName = Objects.requireNonNull(fullNameInput.getText()).toString().trim();
+        String email = Objects.requireNonNull(emailInput.getText()).toString().trim();
         String username = Objects.requireNonNull(usernameInput.getText()).toString().trim();
         String password = Objects.requireNonNull(passwordInput.getText()).toString().trim();
+        String confirmPassword = Objects.requireNonNull(confirmPasswordInput.getText()).toString().trim();
 
-        if (fullName.isEmpty() || username.isEmpty() || password.isEmpty()) {
+        if (fullName.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -58,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     Map<String, String> user = new HashMap<>();
                     user.put("fullName", fullName);
+                    user.put("email", email);
                     user.put("password", password);
 
                     mDatabase.child("users").child(username).setValue(user)
@@ -71,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(RegisterActivity.this, "Database error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

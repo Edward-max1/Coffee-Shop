@@ -63,8 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String dbPassword = snapshot.child("password").getValue(String.class);
                     String fullName = snapshot.child("fullName").getValue(String.class);
+                    String email = snapshot.child("email").getValue(String.class);
                     if (Objects.equals(dbPassword, password)) {
-                        saveUserSession(username, fullName);
+                        saveUserSession(username, fullName, email);
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -78,16 +79,17 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(LoginActivity.this, "Database error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void saveUserSession(String username, String fullName) {
+    private void saveUserSession(String username, String fullName, String email) {
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("username", username);
         editor.putString("fullName", fullName);
+        editor.putString("email", email);
         editor.putBoolean("isLoggedIn", true);
         editor.apply();
     }

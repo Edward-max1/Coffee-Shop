@@ -31,6 +31,6 @@ public class SplashActivity extends AppCompatActivity {
             }
             startActivity(intent);
             finish(); // Remove SplashActivity from back stack
-        }, 3000);
+        }, 1500);
     }
 }

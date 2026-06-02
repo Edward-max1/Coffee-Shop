@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     Date date = new Date();
     private boolean isLoggedIn;
     private String userFullName;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean("isLoggedIn", false);
         userFullName = prefs.getString("fullName", "");
+        userEmail = prefs.getString("email", "");
 
         TextView greetingText = findViewById(R.id.greetingText);
         View nameInputLayout = findViewById(R.id.nameInputLayout);
@@ -128,27 +130,34 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder toppingsList = new StringBuilder();
 
             if (chapati.isChecked()) {
-                totalPrice += (quantity * PRICE_CHAPATI);
+                totalPrice += PRICE_CHAPATI;
                 toppingsList.append("- Chapati (KES ").append(PRICE_CHAPATI).append(")\n");
             }
             if (mandazi.isChecked()) {
-                totalPrice += (quantity * PRICE_MANDAZI);
+                totalPrice += PRICE_MANDAZI;
                 toppingsList.append("- Mandazi (KES ").append(PRICE_MANDAZI).append(")\n");
             }
             if (githeri.isChecked()) {
-                totalPrice += (quantity * PRICE_GITHERI);
+                totalPrice += PRICE_GITHERI;
                 toppingsList.append("- Githeri (KES ").append(PRICE_GITHERI).append(")\n");
             }
             if (bread.isChecked()) {
-                totalPrice += (quantity * PRICE_BREAD);
+                totalPrice += PRICE_BREAD;
                 toppingsList.append("- Bread (KES ").append(PRICE_BREAD).append(")\n");
             }
 
 
             String orderSummary = createOrderSummary(name, quantity, toppingsList.toString(), totalPrice);
-            
+
             Intent intent = new Intent(this, OrderSummaryActivity.class);
             intent.putExtra("ORDER_SUMMARY", orderSummary);
+            intent.putExtra("NAME", name);
+            intent.putExtra("QUANTITY", quantity);
+            intent.putExtra("HAS_CHAPATI", chapati.isChecked());
+            intent.putExtra("HAS_MANDAZI", mandazi.isChecked());
+            intent.putExtra("HAS_GITHERI", githeri.isChecked());
+            intent.putExtra("HAS_BREAD", bread.isChecked());
+            intent.putExtra("TOTAL_PRICE", totalPrice);
             startActivity(intent);
         });
     }
@@ -170,13 +179,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String createOrderSummary(String name, int quantity, String toppings, int price) {
         return  " **** Order Summary **** \n" +
-                "-------------------------\n" +
+                "-----------------------------------\n" +
                 "Name: " + name + "\n" +
                 "Date: " + date + "\n\n" +
                 "Coffee Quantity: " + quantity + "\n" +
                 "Toppings:\n" + (toppings.isEmpty() ? "None\n" : toppings) +
                 "Total Price: KES " + price + "\n" +
-                "-------------------------\n" +
+                "-----------------------------------\n" +
                 "Thank you for your order!";
     }
 

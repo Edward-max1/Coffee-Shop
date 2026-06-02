@@ -24,4 +24,6 @@
     <string name="payment_cash">Cash on Delivery</string>
     <string name="msg_payment_success">Payment initiated successfully!</string>
     <string name="content_desc_coffee_logo">Coffee Shop Logo</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_confirm_password">Confirm Password</string>
 </resources>
