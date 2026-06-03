@@ -24,6 +24,9 @@ import com.google.android.material.button.MaterialButton;
 
 import android.graphics.pdf.PdfDocument;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ReceiptActivity extends AppCompatActivity {
 
@@ -47,19 +50,38 @@ public class ReceiptActivity extends AppCompatActivity {
         boolean hasMandazi = intent.getBooleanExtra("HAS_MANDAZI", false);
         boolean hasGitheri = intent.getBooleanExtra("HAS_GITHERI", false);
         boolean hasBread = intent.getBooleanExtra("HAS_BREAD", false);
+        int chapatiQty = intent.getIntExtra("CHAPATI_QTY", 1);
+        int mandaziQty = intent.getIntExtra("MANDAZI_QTY", 1);
+        int githeriQty = intent.getIntExtra("GITHERI_QTY", 1);
+        int breadQty = intent.getIntExtra("BREAD_QTY", 1);
+        String paymentMethod = intent.getStringExtra("PAYMENT_METHOD");
+        String customerName = intent.getStringExtra("NAME");
 
         // Binding Views
         TextView coffeeQty = findViewById(R.id.coffeeQty);
         TextView coffeePrice = findViewById(R.id.coffeePrice);
         TextView overallTotal = findViewById(R.id.overallTotal);
+        TextView nameText = findViewById(R.id.receiptCustomerName);
+        TextView dateTimeText = findViewById(R.id.receiptDateTime);
+        TextView paymentMethodText = findViewById(R.id.receiptPaymentMethod);
         MaterialButton backBtn = findViewById(R.id.backToHome);
         MaterialButton downloadBtn = findViewById(R.id.downloadBtn);
         View receiptContent = findViewById(R.id.receiptContent);
         TableRow toppingsHeader = findViewById(R.id.toppingsHeaderRow);
 
+        // Set Date and Time
+        String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        dateTimeText.setText("Date: " + currentDateTime);
+
+        // Set Customer Name
+        nameText.setText("Customer: " + (customerName != null ? customerName : "N/A"));
+
+        // Set Payment Method
+        paymentMethodText.setText("Payment: " + (paymentMethod != null ? paymentMethod : "N/A"));
+
         // Set Coffee Row
         coffeeQty.setText(String.valueOf(quantity));
-        coffeePrice.setText("KES " + (quantity * 100)); // Base price 100
+        coffeePrice.setText("KES " + (quantity * 50)); // Base price 50
 
         // Handle Toppings - They appear under "TOPPINGS" heading
         boolean anyToppings = hasChapati || hasMandazi || hasGitheri || hasBread;
@@ -67,11 +89,11 @@ public class ReceiptActivity extends AppCompatActivity {
             toppingsHeader.setVisibility(View.VISIBLE);
         }
 
-        // Topping quantity is 1 as requested
-        setupToppingRow(R.id.chapatiRow, R.id.chapatiQty, R.id.chapatiPrice, hasChapati, 1, 20);
-        setupToppingRow(R.id.mandaziRow, R.id.mandaziQty, R.id.mandaziPrice, hasMandazi, 1, 10);
-        setupToppingRow(R.id.githeriRow, R.id.githeriQty, R.id.githeriPrice, hasGitheri, 1, 50);
-        setupToppingRow(R.id.breadRow, R.id.breadQty, R.id.breadPrice, hasBread, 1, 35);
+        // Topping quantity is now specific to each topping
+        setupToppingRow(R.id.chapatiRow, R.id.chapatiQty, R.id.chapatiPrice, hasChapati, chapatiQty, 20);
+        setupToppingRow(R.id.mandaziRow, R.id.mandaziQty, R.id.mandaziPrice, hasMandazi, mandaziQty, 10);
+        setupToppingRow(R.id.githeriRow, R.id.githeriQty, R.id.githeriPrice, hasGitheri, githeriQty, 30);
+        setupToppingRow(R.id.breadRow, R.id.breadQty, R.id.breadPrice, hasBread, breadQty, 35);
 
         overallTotal.setText("KES " + totalPrice);
 

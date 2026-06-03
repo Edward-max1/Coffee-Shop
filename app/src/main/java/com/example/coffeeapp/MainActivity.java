@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import java.lang.reflect.Method;
+import android.view.Menu;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -29,10 +31,10 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final int PRICE_COFFEE = 100;
+    private static final int PRICE_COFFEE = 50;
     private static final int PRICE_CHAPATI = 20;
     private static final int PRICE_MANDAZI = 10;
-    private static final int PRICE_GITHERI = 50;
+    private static final int PRICE_GITHERI = 30;
     private static final int PRICE_BREAD = 35;
 
     Date date = new Date();
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean("isLoggedIn", false);
         userFullName = prefs.getString("fullName", "");
@@ -60,26 +65,15 @@ public class MainActivity extends AppCompatActivity {
 
         TextView greetingText = findViewById(R.id.greetingText);
         View nameInputLayout = findViewById(R.id.nameInputLayout);
-        ImageButton logoutBtn = findViewById(R.id.logoutBtn);
 
         if (isLoggedIn && !userFullName.isEmpty()) {
             greetingText.setVisibility(View.VISIBLE);
             greetingText.setText(getGreeting(userFullName));
             nameInputLayout.setVisibility(View.GONE);
-            logoutBtn.setVisibility(View.VISIBLE);
         } else {
             greetingText.setVisibility(View.GONE);
             nameInputLayout.setVisibility(View.VISIBLE);
-            logoutBtn.setVisibility(View.GONE);
         }
-
-        logoutBtn.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.apply();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
 
 
         final EditText coffeeNum = findViewById(R.id.coffeeNum);
@@ -91,6 +85,17 @@ public class MainActivity extends AppCompatActivity {
         final CheckBox mandazi = findViewById(R.id.mandazi);
         final CheckBox githeri = findViewById(R.id.githeri);
         final CheckBox bread = findViewById(R.id.bread);
+
+        // Topping Quantity Controls
+        final TextView chapatiQty = findViewById(R.id.chapatiQty);
+        final TextView mandaziQty = findViewById(R.id.mandaziQty);
+        final TextView githeriQty = findViewById(R.id.githeriQty);
+        final TextView breadQty = findViewById(R.id.breadQty);
+
+        setupToppingCounter(findViewById(R.id.chapatiPlus), findViewById(R.id.chapatiMinus), chapatiQty);
+        setupToppingCounter(findViewById(R.id.mandaziPlus), findViewById(R.id.mandaziMinus), mandaziQty);
+        setupToppingCounter(findViewById(R.id.githeriPlus), findViewById(R.id.githeriMinus), githeriQty);
+        setupToppingCounter(findViewById(R.id.breadPlus), findViewById(R.id.breadMinus), breadQty);
 
 
         plusBtn.setOnClickListener(v -> {
@@ -129,21 +134,26 @@ public class MainActivity extends AppCompatActivity {
             int totalPrice = quantity * PRICE_COFFEE;
             StringBuilder toppingsList = new StringBuilder();
 
+            int cQty = Integer.parseInt(chapatiQty.getText().toString());
+            int mQty = Integer.parseInt(mandaziQty.getText().toString());
+            int gQty = Integer.parseInt(githeriQty.getText().toString());
+            int bQty = Integer.parseInt(breadQty.getText().toString());
+
             if (chapati.isChecked()) {
-                totalPrice += PRICE_CHAPATI;
-                toppingsList.append("- Chapati (KES ").append(PRICE_CHAPATI).append(")\n");
+                totalPrice += (cQty * PRICE_CHAPATI);
+                toppingsList.append("- Chapati x").append(cQty).append(" (KES ").append(cQty * PRICE_CHAPATI).append(")\n");
             }
             if (mandazi.isChecked()) {
-                totalPrice += PRICE_MANDAZI;
-                toppingsList.append("- Mandazi (KES ").append(PRICE_MANDAZI).append(")\n");
+                totalPrice += (mQty * PRICE_MANDAZI);
+                toppingsList.append("- Mandazi x").append(mQty).append(" (KES ").append(mQty * PRICE_MANDAZI).append(")\n");
             }
             if (githeri.isChecked()) {
-                totalPrice += PRICE_GITHERI;
-                toppingsList.append("- Githeri (KES ").append(PRICE_GITHERI).append(")\n");
+                totalPrice += (gQty * PRICE_GITHERI);
+                toppingsList.append("- Githeri x").append(gQty).append(" (KES ").append(gQty * PRICE_GITHERI).append(")\n");
             }
             if (bread.isChecked()) {
-                totalPrice += PRICE_BREAD;
-                toppingsList.append("- Bread (KES ").append(PRICE_BREAD).append(")\n");
+                totalPrice += (bQty * PRICE_BREAD);
+                toppingsList.append("- Bread x").append(bQty).append(" (KES ").append(bQty * PRICE_BREAD).append(")\n");
             }
 
 
@@ -157,8 +167,67 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("HAS_MANDAZI", mandazi.isChecked());
             intent.putExtra("HAS_GITHERI", githeri.isChecked());
             intent.putExtra("HAS_BREAD", bread.isChecked());
+            intent.putExtra("CHAPATI_QTY", cQty);
+            intent.putExtra("MANDAZI_QTY", mQty);
+            intent.putExtra("GITHERI_QTY", gQty);
+            intent.putExtra("BREAD_QTY", bQty);
             intent.putExtra("TOTAL_PRICE", totalPrice);
             startActivity(intent);
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    // This method enables icons to be shown in the overflow menu
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if (menu != null && menu.getClass().getSimpleName().equals("MenuBuilder")) {
+            try {
+                Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@androidx.annotation.NonNull android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_history) {
+            startActivity(new Intent(this, OrderHistoryActivity.class));
+            return true;
+        } else if (id == R.id.action_logout) {
+            SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            editor.apply();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return true;
+        } else if (id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupToppingCounter(View plus, View minus, final TextView qtyText) {
+        plus.setOnClickListener(v -> {
+            int current = Integer.parseInt(qtyText.getText().toString());
+            qtyText.setText(String.valueOf(current + 1));
+        });
+        minus.setOnClickListener(v -> {
+            int current = Integer.parseInt(qtyText.getText().toString());
+            if (current > 1) {
+                qtyText.setText(String.valueOf(current - 1));
+            }
         });
     }
 

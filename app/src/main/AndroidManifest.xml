@@ -57,6 +57,16 @@
             android:exported="false"
             android:label="Receipt" />
 
+        <activity
+            android:name=".OrderHistoryActivity"
+            android:exported="false"
+            android:label="Order History" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false"
+            android:label="About" />
+
     </application>
 
 </manifest>
