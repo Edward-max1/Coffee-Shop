@@ -44,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 int toppingQty = entry.getValue();
                 int toppingPrice = 0;
                 
-                // Matching prices from MainActivity
+
                 switch (toppingName) {
                     case "Chapati": toppingPrice = toppingQty * 20; break;
                     case "Mandazi": toppingPrice = toppingQty * 10; break;

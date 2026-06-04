@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoffeeApp">
 
-        <!-- Splash Screen Activity -->
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"

@@ -42,7 +42,7 @@ public class ReceiptActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Get Data from Intent
+
         Intent intent = getIntent();
         int quantity = intent.getIntExtra("QUANTITY", 0);
         int totalPrice = intent.getIntExtra("TOTAL_PRICE", 0);
@@ -57,7 +57,7 @@ public class ReceiptActivity extends AppCompatActivity {
         String paymentMethod = intent.getStringExtra("PAYMENT_METHOD");
         String customerName = intent.getStringExtra("NAME");
 
-        // Binding Views
+
         TextView coffeeQty = findViewById(R.id.coffeeQty);
         TextView coffeePrice = findViewById(R.id.coffeePrice);
         TextView overallTotal = findViewById(R.id.overallTotal);
@@ -69,27 +69,27 @@ public class ReceiptActivity extends AppCompatActivity {
         View receiptContent = findViewById(R.id.receiptContent);
         TableRow toppingsHeader = findViewById(R.id.toppingsHeaderRow);
 
-        // Set Date and Time
+
         String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         dateTimeText.setText("Date: " + currentDateTime);
 
-        // Set Customer Name
+
         nameText.setText("Customer: " + (customerName != null ? customerName : "N/A"));
 
-        // Set Payment Method
+
         paymentMethodText.setText("Payment: " + (paymentMethod != null ? paymentMethod : "N/A"));
 
-        // Set Coffee Row
-        coffeeQty.setText(String.valueOf(quantity));
-        coffeePrice.setText("KES " + (quantity * 50)); // Base price 50
 
-        // Handle Toppings - They appear under "TOPPINGS" heading
+        coffeeQty.setText(String.valueOf(quantity));
+        coffeePrice.setText("KES " + (quantity * 50));
+
+
         boolean anyToppings = hasChapati || hasMandazi || hasGitheri || hasBread;
         if (anyToppings) {
             toppingsHeader.setVisibility(View.VISIBLE);
         }
 
-        // Topping quantity is now specific to each topping
+
         setupToppingRow(R.id.chapatiRow, R.id.chapatiQty, R.id.chapatiPrice, hasChapati, chapatiQty, 20);
         setupToppingRow(R.id.mandaziRow, R.id.mandaziQty, R.id.mandaziPrice, hasMandazi, mandaziQty, 10);
         setupToppingRow(R.id.githeriRow, R.id.githeriQty, R.id.githeriPrice, hasGitheri, githeriQty, 30);
@@ -124,11 +124,11 @@ public class ReceiptActivity extends AppCompatActivity {
 
     private void downloadReceipt(View view) {
         PdfDocument document = new PdfDocument();
-        // Set page info (width and height matching the view)
+
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(view.getWidth(), view.getHeight(), 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
-        // Draw view content on PDF page
+
         Canvas canvas = page.getCanvas();
         view.draw(canvas);
         document.finishPage(page);

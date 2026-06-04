@@ -1,7 +1,6 @@
 package com.example.coffeeapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -90,19 +89,6 @@ public class OrderSummaryActivity extends AppCompatActivity {
 
         if (orderId != null) {
             mDatabase.child(orderId).setValue(order);
-        }
-    }
-
-    private void composeEmail(String body) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, getString(R.string.msg_no_email), Toast.LENGTH_LONG).show();
         }
     }
 }

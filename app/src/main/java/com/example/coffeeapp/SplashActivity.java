@@ -12,9 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-/**
- * Splash screen activity that displays a logo for a few seconds.
- */
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -32,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);
 
-        // Transition to next activity after 3 seconds
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent;
             if (isLoggedIn) {
@@ -42,6 +40,6 @@ public class SplashActivity extends AppCompatActivity {
             }
             startActivity(intent);
             finish(); // Remove SplashActivity from back stack
-        }, 1500);
+        }, 1000);
     }
 }

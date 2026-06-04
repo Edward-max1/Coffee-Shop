@@ -14,8 +14,7 @@ public class Order {
     public long timestamp;
 
     public Order() {
-        // Default constructor required for calls to DataSnapshot.getValue(Order.class)
-    }
+        }
 
     public Order(String orderId, String username, String customerName, String date, int coffeeQuantity, Map<String, Integer> toppings, int totalPrice, String paymentMethod, long timestamp) {
         this.orderId = orderId;

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,67 +16,47 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/orderDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2024-05-16 12:00:00"
-                android:textStyle="bold"
-                android:textColor="@color/coffee_brown" />
+                android:text="2024-05-16"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/orderTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="KES 200"
-                android:textSize="18sp"
                 android:textColor="@android:color/holo_green_dark"
                 android:textStyle="bold" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DDDDDD"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/orderCustomer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Customer: John Doe"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/paymentMethod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Payment: M-Pesa"
-            android:textSize="12sp"
-            android:textColor="#666666"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Items ordered:"
-            android:textStyle="bold"
+            android:layout_marginTop="4dp"
+            android:text="Customer: John Mark"
             android:textSize="12sp" />
 
         <TextView
             android:id="@+id/orderDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Coffee x2, Chapati x1" />
+
+        <TextView
+            android:id="@+id/paymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Coffee x2 (KES 100)\nChapati x1 (KES 20)"
-            android:lineSpacingExtra="2dp"/>
+            android:text="Payment: M-Pesa"
+            android:textSize="12sp" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

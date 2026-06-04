@@ -2,7 +2,6 @@ package com.example.coffeeapp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -13,6 +12,10 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.graphics.Typeface;
 import java.lang.reflect.Method;
 import android.view.Menu;
 import androidx.core.graphics.Insets;
@@ -40,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     Date date = new Date();
     private boolean isLoggedIn;
     private String userFullName;
-    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        
+        if (getSupportActionBar() != null) {
+            SpannableString s = new SpannableString(getString(R.string.title_coffee_shop));
+            s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            getSupportActionBar().setTitle(s);
+        }
 
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         isLoggedIn = prefs.getBoolean("isLoggedIn", false);
         userFullName = prefs.getString("fullName", "");
-        userEmail = prefs.getString("email", "");
 
         TextView greetingText = findViewById(R.id.greetingText);
         View nameInputLayout = findViewById(R.id.nameInputLayout);
@@ -268,21 +275,6 @@ public class MainActivity extends AppCompatActivity {
             return Math.max(val, 1);
         } catch (NumberFormatException e) {
             return 1;
-        }
-    }
-
-
-    private void composeEmail(String body) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-
-
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, getString(R.string.msg_no_email), Toast.LENGTH_LONG).show();
         }
     }
 }
